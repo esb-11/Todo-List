@@ -10,7 +10,7 @@ function init() {
 
 function createTodo() {
   const todo = todoFactory();
-  pubSub.emit("saveTodo", todo);
+  pubSub.emit("todoCreated", todo);
 }
 
 function todoFactory() {
