@@ -21,5 +21,7 @@ function todoFactory() {
   const index = parseInt(PRIORITIES.length / 2);
   const priority = PRIORITIES[index];
 
-  return { title, description, dueDate, priority };
+  const id = crypto.randomUUID();
+
+  return { title, description, dueDate, priority, id };
 }
