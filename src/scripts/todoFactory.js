@@ -5,21 +5,21 @@ const PRIORITIES = ["low", "medium", "high"];
 pubSub.on("init", init);
 
 function init() {
-    pubSub.on("createTodo", createTodo);
+  pubSub.on("createTodo", createTodo);
 }
 
 function createTodo() {
-    const todo = todoFactory();
-    pubSub.emit("saveTodo", todo);
+  const todo = todoFactory();
+  pubSub.emit("saveTodo", todo);
 }
 
 function todoFactory() {
-    const title = "Title";
-    const description = "Description";
-    const dueDate = new Date();
+  const title = "Title";
+  const description = "Description";
+  const dueDate = new Date();
 
-    const index = parseInt(PRIORITIES.length / 2);
-    const priority = PRIORITIES[index];
+  const index = parseInt(PRIORITIES.length / 2);
+  const priority = PRIORITIES[index];
 
-    return { title, description, dueDate, priority };
+  return { title, description, dueDate, priority };
 }
