@@ -5,8 +5,3 @@ import "./scripts/todoManager.js";
 import "./scripts/render.js"
 
 pubSub.emit("init");
-
-pubSub.emit("createTodo");
-pubSub.emit("createTodo");
-pubSub.emit("createTodo");
-pubSub.emit("createTodo");
