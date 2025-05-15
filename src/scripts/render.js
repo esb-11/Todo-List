@@ -10,12 +10,15 @@ function init() {
 }
 
 function renderTodoList(todoList) {
+  todoContainer.innerHTML = "";
   todoList.forEach(renderTodo);
 }
 
 function renderTodo(todo) {
-  const todoElement = todoTemplate.content.cloneNode(true);
+  const clone = todoTemplate.content.cloneNode(true);
+  const todoElement = clone.querySelector(".todo-card");
 
+  todoElement.dataset.id = todo.id;
   todoElement.querySelector(".todo-title").innerText = todo.title;
   todoElement.querySelector(".todo-due-date").innerText = todo.dueDate;
   todoElement.querySelector(".todo-priority").innerText = todo.priority;
