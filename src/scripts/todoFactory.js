@@ -8,18 +8,16 @@ function init() {
   pubSub.on("createTodo", createTodo);
 }
 
-function createTodo() {
-  const todo = todoFactory();
+function createTodo(inputTitle, inputDescription, inputDueDate, inputPriority) {
+  const todo = todoFactory(inputTitle, inputDescription, inputDueDate, inputPriority);
   pubSub.emit("todoCreated", todo);
 }
 
-function todoFactory() {
-  const title = "Title";
-  const description = "Description";
-  const dueDate = new Date();
-
-  const index = parseInt(PRIORITIES.length / 2);
-  const priority = PRIORITIES[index];
+function todoFactory(inputTitle, inputDescription, inputDueDate, inputPriority) {
+  const title = inputTitle || "Title";
+  const description = inputDescription || "Description";
+  const dueDate = inputDueDate ? new Date(inputDueDate): new Date();
+  const priority = PRIORITIES.includes(inputPriority) ? inputPriority : PRIORITIES[1];
 
   const id = crypto.randomUUID();
 
