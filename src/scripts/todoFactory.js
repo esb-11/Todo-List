@@ -5,7 +5,7 @@ const PRIORITIES = ["low", "medium", "high"];
 pubSub.on("init", init);
 
 function init() {
-  pubSub.on("createTodo", createTodo);
+  pubSub.on("todoSubmitted", createTodo);
 }
 
 function createTodo(inputTitle, inputDescription, inputDueDate, inputPriority) {
