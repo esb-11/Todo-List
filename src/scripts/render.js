@@ -1,8 +1,10 @@
 import { pubSub } from "./pubSub.js";
 
 const todoContainer = document.querySelector("#todo-container");
+const projectContainer = document.querySelector("#projects-container");
 const todoTemplate = document.querySelector("#todo-template");
 
+// Add Todo Dialog variables
 const openTodoDialogButton = document.querySelector(".open-todo-dialog");
 const addTodoDialog = document.querySelector("#add-todo-dialog");
 const addTodoForm = addTodoDialog.querySelector("form");
@@ -12,7 +14,7 @@ const closeAddTodoDialog = addTodoDialog.querySelector(".close-todo-dialog");
 pubSub.on("init", init);
 
 function init() {
-  pubSub.on("todoListUpdated", renderTodoList);
+  pubSub.on("todoListUpdated", updatePage);
 
   startEventListeners();
 }
@@ -25,6 +27,7 @@ function startEventListeners() {
   closeAddTodoDialog.addEventListener("click", closeDialog);
 }
 
+// Add Todo Dialog functions
 function closeDialog(e) {
   e.preventDefault();
   resetTodoDialog();
@@ -64,9 +67,21 @@ function resetTodoDialog() {
   addTodoForm.querySelector("#project").value = "";
 }
 
-function renderTodoList(todoList) {
+// Render Functions
+function updatePage(todoList) {
   todoContainer.innerHTML = "";
-  todoList.forEach(renderTodo);
+  projectContainer.innerHTML = "";
+  const projectList = [];
+  todoList.forEach((todo) => {
+    if (!projectList.includes(todo.project)) {
+      projectList.push(todo.project);
+    }
+
+    renderTodo(todo);
+  });
+
+  projectList.sort();
+  projectList.forEach(renderProject);
 }
 
 function renderTodo(todo) {
@@ -77,7 +92,13 @@ function renderTodo(todo) {
   todoElement.querySelector(".todo-title").innerText = todo.title;
   todoElement.querySelector(".todo-due-date").innerText = todo.dueDate;
   todoElement.querySelector(".todo-priority").innerText = todo.priority;
-  todoElement.querySelector(".todo-project").innerText = todo.project;
+  // todoElement.querySelector(".todo-project").innerText = todo.project;
 
   todoContainer.appendChild(todoElement);
+}
+
+function renderProject(project) {
+  const projectElement = document.createElement("div");
+  projectElement.innerText = project;
+  projectContainer.appendChild(projectElement);
 }
