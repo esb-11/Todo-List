@@ -27,11 +27,11 @@ function init() {
 
 function startEventListeners() {
   openTodoDialogButton.addEventListener("click", (e) => { showDialog(e, addTodoDialog) });
-  addTodoButton.addEventListener("click", submitTodo);
+  addTodoButton.addEventListener("click", emitSubmitEvent);
   closeAddTodoDialog.addEventListener("click", (e) => { closeDialog(e, addTodoDialog) });
 
   closeEditTodoDialog.addEventListener("click", (e) => { closeDialog(e, editTodoDialog) });
-  editTodoButton.addEventListener("click", editTodo);
+  editTodoButton.addEventListener("click", emitEditEvent);
 }
 
 // Dialog Functions
@@ -96,6 +96,9 @@ function renderTodo(todo) {
     showDialog(e, editTodoDialog);
   });
 
+  const deleteTodoButton = todoElement.querySelector(".delete-todo");
+  deleteTodoButton.addEventListener("click", (e) => { emitDeleteEvent(todo.id) });
+
   todoContainer.appendChild(todoElement);
 }
 
@@ -107,8 +110,7 @@ function renderProject(project) {
 }
 
 // Todo functions
-
-function submitTodo(eventTriggered) {
+function emitSubmitEvent(eventTriggered) {
   eventTriggered.preventDefault();
 
   const data = getTodoFormInfo(addTodoForm);
@@ -119,10 +121,14 @@ function submitTodo(eventTriggered) {
   addTodoDialog.close();
 }
 
-function editTodo() {
+function emitEditEvent() {
   const id = editTodoDialog.dataset.currentId;
   const data = getTodoFormInfo(editTodoForm);
   pubSub.emit("todoEdited", id, ...data);
   resetTodoForm(editTodoForm);
   editTodoDialog.close();
+}
+
+function emitDeleteEvent(id) {
+  pubSub.emit("todoDeleted", id);
 }

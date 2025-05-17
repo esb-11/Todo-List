@@ -7,6 +7,7 @@ pubSub.on("init", init);
 function init() {
   pubSub.on("todoCreated", addTodo);
   pubSub.on("todoEdited", editTodo);
+  pubSub.on("todoDeleted", deleteTodo);
 }
 
 function addTodo(todo) {
@@ -24,5 +25,15 @@ function editTodo(id, newTitle, newDescription, newDueDate, newPriority, newProj
       todo.project = (newProject == "" ? todo.project : newProject);
     }
   });
+  pubSub.emit("todoListUpdated", todoList.slice());
+}
+
+function deleteTodo(id) {
+  todoList.forEach((todo, index) => {
+    if (todo.id == id) {
+      todoList.splice(index, 1);
+    }
+  });
+
   pubSub.emit("todoListUpdated", todoList.slice());
 }
