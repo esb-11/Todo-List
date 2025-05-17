@@ -10,11 +10,20 @@
       <header>To-do List</header>
 
       <main>
-        <button class="open-todo-dialog">+</button>
+        <div class="main-container">
+          <div class="projects">
+            <h3>Projects</h3>
+            <div id="projects-container"></div>
+          </div>
 
-        <div id="projects-container"></div>
-
-        <div id="todo-container"></div>
+          <div class="todo">
+            <div class="todo-title">
+              <h3 class="current-project"></h3>
+              <button class="open-todo-dialog">Add to-do</button>
+            </div>
+            <div id="todo-container"></div>
+          </div>
+        </div>
       </main>
 
       <footer>ESB-11</footer>
@@ -52,7 +61,7 @@
         <h3>To-Do</h3>
         <form>
           <label for="title">Title</label>
-          <input type="text" name="title" id="title" required/>
+          <input type="text" name="title" id="title" required />
 
           <label for="description">Description</label>
           <input type="text" name="description" id="description" />
@@ -61,7 +70,7 @@
           <input type="date" name="due-date" id="due-date" />
 
           <label for="project">Project</label>
-          <input type="text" name="project" id="project"/>
+          <input type="text" name="project" id="project" />
 
           <label for="priority">Priority</label>
           <select name="priority" id="priority" required>
