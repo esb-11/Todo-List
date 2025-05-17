@@ -7,7 +7,7 @@ const openTodoDialogButton = document.querySelector(".open-todo-dialog");
 const addTodoDialog = document.querySelector("#add-todo-dialog");
 const addTodoForm = addTodoDialog.querySelector("form");
 const addTodoButton = addTodoDialog.querySelector(".add-todo");
-
+const closeAddTodoDialog = addTodoDialog.querySelector(".close-todo-dialog");
 
 pubSub.on("init", init);
 
@@ -31,10 +31,11 @@ function submitTodo(eventTriggered) {
   eventTriggered.preventDefault();
 
   const data = getTodoFormInfo();
-
-  if (data.length === 0) return;
+  console.log(data);
 
   pubSub.emit("todoSubmitted", ...data);
+  resetTodoDialog();
+  addTodoDialog.close();
 }
 
 function getTodoFormInfo() {
@@ -44,6 +45,13 @@ function getTodoFormInfo() {
   const priority = addTodoForm.querySelector("#priority").value;
 
   return [title, description, dueDate, priority];
+}
+
+function resetTodoDialog() {
+  addTodoForm.querySelector("#title").value = "";
+  addTodoForm.querySelector("#description").value = "";
+  addTodoForm.querySelector("#due-date").value = "";
+  addTodoForm.querySelector("#priority").value = "medium";
 }
 
 function renderTodoList(todoList) {
