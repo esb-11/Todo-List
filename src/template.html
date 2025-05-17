@@ -29,10 +29,13 @@
           <label for="due-date">Due Date</label>
           <input type="date" name="due-date" id="due-date" />
 
+          <label for="project">Project</label>
+          <input type="text" name="project" id="project" required />
+
           <label for="priority">Priority</label>
-          <select name="priority" id="priority">
+          <select name="priority" id="priority" required>
             <option value="low">Low</option>
-            <option value="medium">Medium</option>
+            <option value="medium" selected>Medium</option>
             <option value="high">High</option>
           </select>
 
@@ -48,6 +51,7 @@
           <div class="todo-title"></div>
           <div class="todo-due-date"></div>
           <div class="todo-priority"></div>
+          <div class="todo-project"></div>
         </div>
       </template>
     </div>

@@ -43,8 +43,9 @@ function getTodoFormInfo() {
   const description = addTodoForm.querySelector("#description").value;
   const dueDate = addTodoForm.querySelector("#due-date").value;
   const priority = addTodoForm.querySelector("#priority").value;
+  const project = addTodoForm.querySelector("#project").value;
 
-  return [title, description, dueDate, priority];
+  return [title, description, dueDate, priority, project];
 }
 
 function resetTodoDialog() {
@@ -52,6 +53,7 @@ function resetTodoDialog() {
   addTodoForm.querySelector("#description").value = "";
   addTodoForm.querySelector("#due-date").value = "";
   addTodoForm.querySelector("#priority").value = "medium";
+  addTodoForm.querySelector("#project").value = "";
 }
 
 function renderTodoList(todoList) {
@@ -67,6 +69,7 @@ function renderTodo(todo) {
   todoElement.querySelector(".todo-title").innerText = todo.title;
   todoElement.querySelector(".todo-due-date").innerText = todo.dueDate;
   todoElement.querySelector(".todo-priority").innerText = todo.priority;
+  todoElement.querySelector(".todo-project").innerText = todo.project;
 
   todoContainer.appendChild(todoElement);
 }
