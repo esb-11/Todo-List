@@ -9,7 +9,13 @@ const openTodoDialogButton = document.querySelector(".open-todo-dialog");
 const addTodoDialog = document.querySelector("#add-todo-dialog");
 const addTodoForm = addTodoDialog.querySelector("form");
 const addTodoButton = addTodoDialog.querySelector(".add-todo");
-const closeAddTodoDialog = addTodoDialog.querySelector(".close-todo-dialog");
+const closeAddTodoDialog = addTodoDialog.querySelector(".close-dialog");
+
+// Edit Todo Dialog Variables
+const editTodoDialog = document.querySelector("#edit-todo-dialog");
+const editTodoForm = editTodoDialog.querySelector("form");
+const editTodoButton = editTodoDialog.querySelector(".edit-todo");
+const closeEditTodoDialog = editTodoDialog.querySelector(".close-dialog");
 
 pubSub.on("init", init);
 
@@ -20,51 +26,41 @@ function init() {
 }
 
 function startEventListeners() {
-  openTodoDialogButton.addEventListener("click", showAddTodoModal);
-
+  openTodoDialogButton.addEventListener("click", (e) => { showDialog(e, addTodoDialog) });
   addTodoButton.addEventListener("click", submitTodo);
+  closeAddTodoDialog.addEventListener("click", (e) => { closeDialog(e, addTodoDialog) });
 
-  closeAddTodoDialog.addEventListener("click", closeDialog);
+  closeEditTodoDialog.addEventListener("click", (e) => { closeDialog(e, editTodoDialog) });
+  editTodoButton.addEventListener("click", editTodo);
 }
 
-// Add Todo Dialog functions
-function closeDialog(e) {
+// Dialog Functions
+function closeDialog(e, dialog) {
   e.preventDefault();
-  resetTodoDialog();
-  addTodoDialog.close();
+  resetTodoForm(addTodoForm);
+  dialog.close();
 }
 
-function showAddTodoModal() {
-  addTodoDialog.showModal();
+function resetTodoForm(form) {
+  form.querySelector("#title").value = "";
+  form.querySelector("#description").value = "";
+  form.querySelector("#due-date").value = "";
+  form.querySelector("#priority").value = "medium";
+  form.querySelector("#project").value = "";
 }
 
-function submitTodo(eventTriggered) {
-  eventTriggered.preventDefault();
-
-  const data = getTodoFormInfo();
-  console.log(data);
-
-  pubSub.emit("todoSubmitted", ...data);
-  resetTodoDialog();
-  addTodoDialog.close();
+function showDialog(e, dialog) {
+  dialog.showModal();
 }
 
-function getTodoFormInfo() {
-  const title = addTodoForm.querySelector("#title").value;
-  const description = addTodoForm.querySelector("#description").value;
-  const dueDate = addTodoForm.querySelector("#due-date").value;
-  const priority = addTodoForm.querySelector("#priority").value;
-  const project = addTodoForm.querySelector("#project").value;
+function getTodoFormInfo(form) {
+  const title = form.querySelector("#title").value;
+  const description = form.querySelector("#description").value;
+  const dueDate = form.querySelector("#due-date").value;
+  const priority = form.querySelector("#priority").value;
+  const project = form.querySelector("#project").value;
 
   return [title, description, dueDate, priority, project];
-}
-
-function resetTodoDialog() {
-  addTodoForm.querySelector("#title").value = "";
-  addTodoForm.querySelector("#description").value = "";
-  addTodoForm.querySelector("#due-date").value = "";
-  addTodoForm.querySelector("#priority").value = "medium";
-  addTodoForm.querySelector("#project").value = "";
 }
 
 // Render Functions
@@ -94,11 +90,39 @@ function renderTodo(todo) {
   todoElement.querySelector(".todo-priority").innerText = todo.priority;
   // todoElement.querySelector(".todo-project").innerText = todo.project;
 
+  const editTodoButton = todoElement.querySelector(".edit-todo");
+  editTodoButton.addEventListener("click", (e) => {
+    editTodoDialog.dataset.currentId = todo.id;
+    showDialog(e, editTodoDialog);
+  });
+
   todoContainer.appendChild(todoElement);
 }
 
 function renderProject(project) {
-  const projectElement = document.createElement("div");
+  const projectElement = document.createElement("button");
   projectElement.innerText = project;
+  projectElement.dataset.projectName = project;
   projectContainer.appendChild(projectElement);
+}
+
+// Todo functions
+
+function submitTodo(eventTriggered) {
+  eventTriggered.preventDefault();
+
+  const data = getTodoFormInfo(addTodoForm);
+  console.log(data);
+
+  pubSub.emit("todoSubmitted", ...data);
+  resetTodoForm(addTodoForm);
+  addTodoDialog.close();
+}
+
+function editTodo() {
+  const id = editTodoDialog.dataset.currentId;
+  const data = getTodoFormInfo(editTodoForm);
+  pubSub.emit("todoEdited", id, ...data);
+  resetTodoForm(editTodoForm);
+  editTodoDialog.close();
 }

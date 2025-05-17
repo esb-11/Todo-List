@@ -20,7 +20,7 @@
       <footer>ESB-11</footer>
 
       <dialog id="add-todo-dialog">
-        <h3>New To-Do</h3>
+        <h3>To-Do</h3>
         <form>
           <label for="title">Title</label>
           <input type="text" name="title" id="title" required />
@@ -41,10 +41,39 @@
             <option value="high">High</option>
           </select>
 
-          <button class="close-todo-dialog" value="cancel" formmethod="dialog">
+          <button class="close-dialog" value="cancel" formmethod="dialog">
             Close
           </button>
           <button class="add-todo">Add todo</button>
+        </form>
+      </dialog>
+
+      <dialog id="edit-todo-dialog">
+        <h3>To-Do</h3>
+        <form>
+          <label for="title">Title</label>
+          <input type="text" name="title" id="title" required/>
+
+          <label for="description">Description</label>
+          <input type="text" name="description" id="description" />
+
+          <label for="due-date">Due Date</label>
+          <input type="date" name="due-date" id="due-date" />
+
+          <label for="project">Project</label>
+          <input type="text" name="project" id="project"/>
+
+          <label for="priority">Priority</label>
+          <select name="priority" id="priority" required>
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+
+          <button class="close-dialog" value="cancel" formmethod="dialog">
+            Close
+          </button>
+          <button class="edit-todo">Edit todo</button>
         </form>
       </dialog>
 
@@ -53,6 +82,7 @@
           <div class="todo-title"></div>
           <div class="todo-due-date"></div>
           <div class="todo-priority"></div>
+          <button class="edit-todo">Edit</button>
           <!-- <div class="todo-project"></div> -->
         </div>
       </template>
