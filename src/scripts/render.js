@@ -21,6 +21,14 @@ function startEventListeners() {
   openTodoDialogButton.addEventListener("click", showAddTodoModal);
 
   addTodoButton.addEventListener("click", submitTodo);
+
+  closeAddTodoDialog.addEventListener("click", closeDialog);
+}
+
+function closeDialog(e) {
+  e.preventDefault();
+  resetTodoDialog();
+  addTodoDialog.close();
 }
 
 function showAddTodoModal() {
