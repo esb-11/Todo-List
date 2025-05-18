@@ -26,11 +26,17 @@ function init() {
 }
 
 function startEventListeners() {
-  openTodoDialogButton.addEventListener("click", (e) => { showDialog(e, addTodoDialog) });
+  openTodoDialogButton.addEventListener("click", (e) => {
+    showDialog(e, addTodoDialog);
+  });
   addTodoButton.addEventListener("click", emitSubmitEvent);
-  closeAddTodoDialog.addEventListener("click", (e) => { closeDialog(e, addTodoDialog) });
+  closeAddTodoDialog.addEventListener("click", (e) => {
+    closeDialog(e, addTodoDialog);
+  });
 
-  closeEditTodoDialog.addEventListener("click", (e) => { closeDialog(e, editTodoDialog) });
+  closeEditTodoDialog.addEventListener("click", (e) => {
+    closeDialog(e, editTodoDialog);
+  });
   editTodoButton.addEventListener("click", emitEditEvent);
 }
 
@@ -86,7 +92,9 @@ function renderTodo(todo) {
 
   todoElement.dataset.id = todo.id;
   todoElement.querySelector(".todo-title").innerText = todo.title;
-  todoElement.querySelector(".todo-due-date").innerText = todo.dueDate;
+  todoElement.querySelector(".todo-due-date").innerText = createTodoDate(
+    todo.dueDate
+  );
   todoElement.querySelector(".todo-priority").innerText = todo.priority;
   // todoElement.querySelector(".todo-project").innerText = todo.project;
 
@@ -97,9 +105,22 @@ function renderTodo(todo) {
   });
 
   const deleteTodoButton = todoElement.querySelector(".delete-todo");
-  deleteTodoButton.addEventListener("click", (e) => { emitDeleteEvent(todo.id) });
+  deleteTodoButton.addEventListener("click", (e) => {
+    emitDeleteEvent(todo.id);
+  });
 
   todoContainer.appendChild(todoElement);
+}
+
+function createTodoDate(date) {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  return date.toLocaleDateString("pt-BR", options);
 }
 
 function renderProject(project) {
