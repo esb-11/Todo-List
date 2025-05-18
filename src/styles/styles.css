@@ -1,3 +1,26 @@
+:root {
+  /*
+  #61892F
+  #86C232
+  #222629
+  #474B4F
+  #6B6E70
+  */
+
+  --header-background: #222629;
+  --header-color: #d3d9d4;
+
+  --footer-background: #222629;
+  --footer-color: #748d92;
+
+  --main-background: #222629;
+
+  --project-section-background: #474B4F;
+  --projects-title-color: #d3d9d4;
+
+  --todo-section-background: #6B6E70;
+}
+
 * {
   margin: 0;
 }
@@ -8,9 +31,66 @@ body {
   width: 100%;
 }
 
+body {
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+header,
+footer {
+  background-color: var(--header-background);
+  text-align: center;
+}
+
+header {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--header-color);
+}
+
+footer {
+  font-size: 12px;
+  color: var(--footer-color);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .content {
   height: 100%;
+  width: 100%;
 
   display: grid;
-  grid-template-rows: 1fr 20fr 1fr;
+  grid-template-rows: 1fr 25fr 0.5fr;
+}
+
+main {
+  padding: 5% 15%;
+  background-color: var(--main-background);
+}
+
+.main-content {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.projects {
+  padding: 8px;
+  background-color: var(--project-section-background);
+  border-bottom-left-radius: 16px;
+  border-top-left-radius: 16px;
+}
+
+.projects > h3 {
+  color: var(--projects-title-color);
+  text-align: center;
+  font-size: 20px;
+}
+
+.todo {
+  background-color: var(--todo-section-background);
+  border-bottom-right-radius: 16px;
+  border-top-right-radius: 16px;
 }
