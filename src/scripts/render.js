@@ -143,7 +143,8 @@ function emitSubmitEvent(eventTriggered) {
   addTodoDialog.close();
 }
 
-function emitEditEvent() {
+function emitEditEvent(eventTriggered) {
+  eventTriggered.preventDefault();
   const id = editTodoDialog.dataset.currentId;
   const data = getTodoFormInfo(editTodoForm);
   pubSub.emit("todoEdited", id, ...data);

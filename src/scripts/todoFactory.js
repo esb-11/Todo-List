@@ -18,7 +18,7 @@ function todoFactory(inputTitle, inputDescription, inputDueDate, inputPriority, 
   const description = inputDescription || "Description";
   const dueDate = inputDueDate ? new Date(inputDueDate.concat("T00:00")): new Date();
   const priority = PRIORITIES.includes(inputPriority) ? inputPriority : PRIORITIES[1];
-  const project = inputProject || "";
+  const project = inputProject || "Main";
 
   const id = crypto.randomUUID();
 
