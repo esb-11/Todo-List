@@ -20,7 +20,7 @@ function editTodo(id, newTitle, newDescription, newDueDate, newPriority, newProj
     if (id === todo.id) {
       todo.title = (newTitle == "" ? todo.title : newTitle);
       todo.description = (newDescription == "" ? todo.description : newDescription);
-      todo.dueDate = (newDueDate == "" ? todo.dueDate : newDueDate);
+      todo.dueDate = (newDueDate == "" ? todo.dueDate : new Date(newDueDate.concat("T00:00")));
       todo.priority = (newPriority == "" ? todo.priority : newPriority);
       todo.project = (newProject == "" ? todo.project : newProject);
     }

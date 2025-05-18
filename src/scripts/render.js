@@ -113,6 +113,7 @@ function renderTodo(todo) {
 }
 
 function createTodoDate(date) {
+  console.log(date);
   const options = {
     weekday: "long",
     year: "numeric",

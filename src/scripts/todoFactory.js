@@ -16,7 +16,7 @@ function createTodo(inputTitle, inputDescription, inputDueDate, inputPriority, i
 function todoFactory(inputTitle, inputDescription, inputDueDate, inputPriority, inputProject) {
   const title = inputTitle || "Title";
   const description = inputDescription || "Description";
-  const dueDate = inputDueDate ? new Date(inputDueDate): new Date();
+  const dueDate = inputDueDate ? new Date(inputDueDate.concat("T00:00")): new Date();
   const priority = PRIORITIES.includes(inputPriority) ? inputPriority : PRIORITIES[1];
   const project = inputProject || "";
 
