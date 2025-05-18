@@ -95,7 +95,7 @@ function renderTodo(todo) {
   todoElement.querySelector(".todo-due-date").innerText = createTodoDate(
     todo.dueDate
   );
-  todoElement.querySelector(".todo-priority").innerText = todo.priority;
+  // todoElement.querySelector(".todo-priority").innerText = todo.priority;
   // todoElement.querySelector(".todo-project").innerText = todo.project;
 
   const editTodoButton = todoElement.querySelector(".edit-todo");
@@ -115,9 +115,8 @@ function renderTodo(todo) {
 function createTodoDate(date) {
   console.log(date);
   const options = {
-    weekday: "long",
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   };
 
@@ -125,6 +124,9 @@ function createTodoDate(date) {
 }
 
 function renderProject(project) {
+  if (project == "") {
+    return;
+  }
   const projectElement = document.createElement("button");
   projectElement.innerText = project;
   projectElement.dataset.projectName = project;
