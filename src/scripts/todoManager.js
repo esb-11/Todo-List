@@ -8,24 +8,39 @@ function init() {
   pubSub.on("todoCreated", addTodo);
   pubSub.on("todoEdited", editTodo);
   pubSub.on("todoDeleted", deleteTodo);
+  pubSub.on("todoListRequested", sendTodoList);
+  pubSub.on("projectChanged", changeProject);
+}
+
+function changeProject(project) {
+  sendTodoList();
 }
 
 function addTodo(todo) {
   todoList.push(todo);
-  pubSub.emit("todoListUpdated", todoList.slice());
+  sendTodoList();
 }
 
-function editTodo(id, newTitle, newDescription, newDueDate, newPriority, newProject) {
+function editTodo(
+  id,
+  newTitle,
+  newDescription,
+  newDueDate,
+  newPriority,
+  newProject
+) {
   todoList.forEach((todo) => {
     if (id === todo.id) {
-      todo.title = (newTitle == "" ? todo.title : newTitle);
-      todo.description = (newDescription == "" ? todo.description : newDescription);
-      todo.dueDate = (newDueDate == "" ? todo.dueDate : new Date(newDueDate.concat("T00:00")));
-      todo.priority = (newPriority == "" ? todo.priority : newPriority);
-      todo.project = (newProject == "" ? todo.project : newProject);
+      todo.title = newTitle == "" ? todo.title : newTitle;
+      todo.description =
+        newDescription == "" ? todo.description : newDescription;
+      todo.dueDate =
+        newDueDate == "" ? todo.dueDate : new Date(newDueDate.concat("T00:00"));
+      todo.priority = newPriority == "" ? todo.priority : newPriority;
+      todo.project = newProject == "" ? todo.project : newProject;
     }
   });
-  pubSub.emit("todoListUpdated", todoList.slice());
+  sendTodoList();
 }
 
 function deleteTodo(id) {
@@ -35,5 +50,9 @@ function deleteTodo(id) {
     }
   });
 
+  sendTodoList();
+}
+
+function sendTodoList() {
   pubSub.emit("todoListUpdated", todoList.slice());
 }

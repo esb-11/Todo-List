@@ -3,6 +3,9 @@ import { pubSub } from "./pubSub.js";
 const todoContainer = document.querySelector("#todo-container");
 const projectContainer = document.querySelector("#projects-container");
 const todoTemplate = document.querySelector("#todo-template");
+const projectTitle = document.querySelector("#current-project");
+const allButton = document.querySelector(".show-all-button");
+const thisWeekButton = document.querySelector(".show-this-week-button");
 
 // Add Todo Dialog variables
 const openTodoDialogButton = document.querySelector(".open-todo-dialog");
@@ -16,6 +19,8 @@ const editTodoDialog = document.querySelector("#edit-todo-dialog");
 const editTodoForm = editTodoDialog.querySelector("form");
 const editTodoButton = editTodoDialog.querySelector(".edit-todo");
 const closeEditTodoDialog = editTodoDialog.querySelector(".close-dialog");
+let currentProject = "";
+let showThisWeekOnly = false;
 
 pubSub.on("init", init);
 
@@ -38,6 +43,17 @@ function startEventListeners() {
     closeDialog(e, editTodoDialog);
   });
   editTodoButton.addEventListener("click", emitEditEvent);
+
+  allButton.addEventListener("click", (e) => {
+    projectTitle.innerText = "All";
+    currentProject = "";
+    pubSub.emit("projectChanged", "");
+  });
+  thisWeekButton.addEventListener("click", (e) => {
+    projectTitle.innerText = "This Week";
+    showThisWeekOnly = !showThisWeekOnly;
+    pubSub.emit("projectChanged", "");
+  });
 }
 
 // Dialog Functions
@@ -87,6 +103,14 @@ function updatePage(todoList) {
 }
 
 function renderTodo(todo) {
+  if (todo.project != currentProject && currentProject != "") {
+    return;
+  }
+
+  if (showThisWeekOnly && !isTodoDueThisWeek(todo)) {
+    return;
+  }
+
   const clone = todoTemplate.content.cloneNode(true);
   const todoElement = clone.querySelector(".todo-card");
 
@@ -113,7 +137,6 @@ function renderTodo(todo) {
 }
 
 function createTodoDate(date) {
-  console.log(date);
   const options = {
     year: "numeric",
     month: "short",
@@ -130,7 +153,18 @@ function renderProject(project) {
   const projectElement = document.createElement("button");
   projectElement.innerText = project;
   projectElement.dataset.projectName = project;
+
+  projectElement.addEventListener("click", (e) => {
+    changeProject(project);
+  });
+
   projectContainer.appendChild(projectElement);
+}
+
+function changeProject(project) {
+  projectTitle.innerText = project;
+  currentProject = project;
+  pubSub.emit("projectChanged", project);
 }
 
 // Todo functions
@@ -156,4 +190,16 @@ function emitEditEvent(eventTriggered) {
 
 function emitDeleteEvent(id) {
   pubSub.emit("todoDeleted", id);
+}
+
+function isTodoDueThisWeek(todo) {
+  const lastDay = new Date();
+  lastDay.setDate(lastDay.getDate() + 6);
+  const limit = lastDay.valueOf();
+
+  if (todo.dueDate.valueOf() < limit) {
+    return true;
+  }
+
+  return false;
 }
